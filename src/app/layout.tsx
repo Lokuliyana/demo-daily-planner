@@ -10,6 +10,11 @@ export const metadata: Metadata = {
   title: "Little Lines — Handcrafted Stationery & Custom Planners",
   description:
     "Design and order customizable 3–12 month A/L study planners, year planners, daily logs, sticky notes, and stationery. Handcrafted in Sri Lanka with 120gsm bleed-proof paper.",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
