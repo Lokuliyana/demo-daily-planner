@@ -71,10 +71,10 @@ export function calculatePlannerPrice(
 export const COVER_THEMES: CoverThemePreset[] = [
   {
     id: 'theme_future_dr',
-    name: 'Future Doctor / Stethoscope',
+    name: 'Future Doctor / Medical',
     category: 'Aspiration',
     imageUrl: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&auto=format&fit=crop&q=80',
-    description: 'Medical aspiration collage, stethoscope motif, "Future Dr." rose pink typography.',
+    description: 'Medical aspiration collage, stethoscope motif, Future Dr. rose pink typography.',
     badge: 'Popular for Bio A/L',
   },
   {
@@ -90,8 +90,8 @@ export const COVER_THEMES: CoverThemePreset[] = [
     name: 'Law & Justice Scales',
     category: 'Aspiration',
     imageUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&auto=format&fit=crop&q=80',
-    description: 'Vintage courthouse, gold scales of justice, warm burgundy & dark parchment.',
-    badge: 'Popular for Arts/Law',
+    description: 'Vintage courtroom, gold scales of justice, warm burgundy & dark parchment.',
+    badge: 'Popular for Arts & Law',
   },
   {
     id: 'theme_cozy_cat',
@@ -106,7 +106,7 @@ export const COVER_THEMES: CoverThemePreset[] = [
     name: 'Anime Study & Sakura Blossoms',
     category: 'Aesthetic',
     imageUrl: 'https://images.unsplash.com/photo-1522383225653-ed111181a951?w=600&auto=format&fit=crop&q=80',
-    description: 'Cute chibi study character with cherry blossoms, pastel pink aesthetic.',
+    description: 'Cute chibi study character with cherry blossoms, pastel aesthetic.',
     badge: 'Cute & Inspiring',
   },
   {
@@ -114,7 +114,7 @@ export const COVER_THEMES: CoverThemePreset[] = [
     name: 'Midnight Study Cafe & Coffee',
     category: 'Academic',
     imageUrl: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=600&auto=format&fit=crop&q=80',
-    description: 'Lofi warm desktop study vibes, coffee cup, neon glow, nocturnal focus.',
+    description: 'Lofi warm desktop study vibes, coffee cup, nocturnal focus.',
     badge: 'Late Night Grinder',
   },
   {
@@ -170,7 +170,7 @@ export const DAILY_PLANNER_TRACKERS = [
   'Quick dot-grid notes for doodles and brainstorms',
 ];
 
-// Product Catalog Data
+// Product Catalog Data - Clean, professional, zero raw emojis
 export const PRODUCTS_CATALOG: Product[] = [
   {
     id: 'al-study-planner-custom',
@@ -195,7 +195,7 @@ export const PRODUCTS_CATALOG: Product[] = [
   },
   {
     id: 'year-planner-2027',
-    title: '2027 Life & Goal Year Planner 🖊️',
+    title: '2027 Life & Goal Year Planner',
     category: 'planners',
     priceLKR: 2000,
     originalPriceLKR: 2500,
@@ -221,7 +221,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     priceLKR: 1500,
     originalPriceLKR: 1800,
     image: 'https://images.unsplash.com/photo-1517842645767-c639042777db?w=600&auto=format&fit=crop&q=80',
-    description: 'Focus on one day at a time. Choose between 100 to 300 daily planner pages with free personalized cover and 2 shine pages.',
+    description: 'Focus on one day at a time. Choose between 100 to 300 daily planner pages with free personalized cover and 2 shine divider pages.',
     badge: 'Daily Focus',
     rating: 4.8,
     reviewsCount: 64,
@@ -261,7 +261,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     priceLKR: 650,
     originalPriceLKR: 800,
     image: 'https://images.unsplash.com/photo-1584448141569-69f342da535c?w=600&auto=format&fit=crop&q=80',
-    description: 'Crisp desk pad with "Top 3 Priorities", time slots, quick checkbox checklist, and hydration counter. Thick chipboard backing.',
+    description: 'Crisp desk pad with Top 3 Priorities, time slots, quick checkbox checklist, and hydration counter. Thick chipboard backing.',
     badge: 'Desk Essential',
     rating: 4.9,
     reviewsCount: 53,
@@ -299,7 +299,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     priceLKR: 550,
     originalPriceLKR: 700,
     image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600&auto=format&fit=crop&q=80',
-    description: 'Waterproof matte vinyl decals with positive quotes, study mantras, botanical flourishes, and cute chibi mascots. Residue-free peel.',
+    description: 'Waterproof matte vinyl decals with positive quotes, study mantras, botanical flourishes, and cute mascots. Residue-free peel.',
     badge: 'Waterproof Vinyl',
     rating: 5.0,
     reviewsCount: 112,
@@ -318,7 +318,7 @@ export const PRODUCTS_CATALOG: Product[] = [
     priceLKR: 450,
     originalPriceLKR: 600,
     image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&auto=format&fit=crop&q=80',
-    description: 'Translucent PET index tabs that don’t cover text beneath. Writeable with ballpoint pens and pencils for indexing A/L past paper books.',
+    description: 'Translucent PET index tabs that do not cover text beneath. Writeable with ballpoint pens and pencils for indexing A/L past paper books.',
     badge: 'Exam Study Aid',
     rating: 4.7,
     reviewsCount: 45,
@@ -332,7 +332,7 @@ export const PRODUCTS_CATALOG: Product[] = [
   },
 ];
 
-// Initial Verified Reviews
+// Initial Verified Reviews (Emoji-free, professional)
 export const INITIAL_REVIEWS: Review[] = [
   {
     id: 'rev-1',
@@ -341,7 +341,7 @@ export const INITIAL_REVIEWS: Review[] = [
     date: '2 days ago',
     productTitle: 'Custom A/L Study Planner (8 Months)',
     plannerTag: 'Bio Stream • Future Doctor Cover • 8 Months Hardcover',
-    comment: 'The 120gsm paper handles my Stabilo highlighters with zero bleed! MCQ tracker kept me sane during model papers.',
+    comment: 'The 120gsm paper handles my Stabilo highlighters with zero bleed! MCQ tracker kept me completely on schedule during past papers.',
     imageUrl: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&auto=format&fit=crop&q=80',
     verifiedPurchase: true,
     likes: 24,
@@ -353,7 +353,7 @@ export const INITIAL_REVIEWS: Review[] = [
     date: '1 week ago',
     productTitle: 'A/L Study Planner (2028 A/L)',
     plannerTag: 'Maths Stream • Engineering Theme • 12 Months Softcover',
-    comment: 'The monthly shine pages with my own photos came out so high resolution and glossy! The price of 2,800 LKR for a whole year planner of this quality is unbelievable compared to standard bookshops. Ordering through WhatsApp was super fast!',
+    comment: 'The monthly shine pages with my own photos came out high resolution and glossy. The price of 2,800 LKR for a full year planner is exceptional value. WhatsApp ordering was immediate.',
     imageUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=400&auto=format&fit=crop&q=80',
     verifiedPurchase: true,
     likes: 19,
@@ -365,7 +365,7 @@ export const INITIAL_REVIEWS: Review[] = [
     date: '2 weeks ago',
     productTitle: '2027 Life & Goal Year Planner',
     plannerTag: 'Moonlight Cat Theme • Hardcover with Gold Corners',
-    comment: 'The gold metal corner protectors make the planner feel so premium! The budget and sleep trackers are helping me build great habits. Little Lines packaging was like unwrapping a gift 🎁',
+    comment: 'The gold metal corner protectors make the planner feel so premium! The budget and sleep trackers are helping me build great habits. Packaging was pristine.',
     imageUrl: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&auto=format&fit=crop&q=80',
     verifiedPurchase: true,
     likes: 31,
@@ -376,8 +376,8 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     date: '3 weeks ago',
     productTitle: 'My Daily Planners (200 Pages)',
-    plannerTag: 'Custom 200 Pages • Midnight Lofi Study Cover',
-    comment: 'I use this for my university studies and work tasks. The hourly time blocks (6am-11pm) are exactly what I needed. Customer service was so friendly when confirming my cover photo on WhatsApp!',
+    plannerTag: 'Custom 200 Pages • Midnight Study Cover',
+    comment: 'I use this for my university studies and daily tasks. The hourly time blocks (6am-11pm) are exactly what I needed. Customer service was very prompt on WhatsApp.',
     imageUrl: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=400&auto=format&fit=crop&q=80',
     verifiedPurchase: true,
     likes: 14,

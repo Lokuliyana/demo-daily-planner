@@ -67,30 +67,23 @@ const DEFAULT_PLANNER_CONFIG: CustomPlannerConfig = {
   addOnStickers: true,
   addOnStickyTabs: false,
   addOnRibbon: false,
-  calculatedPriceLKR: 2000, // 1750 (6m) + 250 (stickers)
+  calculatedPriceLKR: 2000,
 };
 
 export function StoreProvider({ children }: { children: React.ReactNode }) {
-  // Cart State with localStorage persistence
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [hasLoadedStorage, setHasLoadedStorage] = useState(false);
 
-  // Customizer State
   const [plannerConfig, setPlannerConfig] = useState<CustomPlannerConfig>(DEFAULT_PLANNER_CONFIG);
   const [activeStep, setActiveStep] = useState(1);
 
-  // Quick View Modal
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
-
-  // Reviews with localStorage
   const [reviews, setReviews] = useState<Review[]>(INITIAL_REVIEWS);
 
-  // Order Modal
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [currentOrderDetails, setCurrentOrderDetails] = useState<OrderCustomerDetails | null>(null);
 
-  // Recalculate price whenever plannerConfig changes
   useEffect(() => {
     const price = calculatePlannerPrice(
       plannerConfig.plannerType,
@@ -115,7 +108,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     plannerConfig.addOnRibbon,
   ]);
 
-  // Load from localStorage on client mount
   useEffect(() => {
     try {
       const savedCart = localStorage.getItem('little_lines_cart');
@@ -132,7 +124,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     setHasLoadedStorage(true);
   }, []);
 
-  // Sync cart to localStorage
   useEffect(() => {
     if (hasLoadedStorage) {
       try {
@@ -143,7 +134,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     }
   }, [cart, hasLoadedStorage]);
 
-  // Sync reviews to localStorage
   useEffect(() => {
     if (hasLoadedStorage) {
       try {
@@ -218,11 +208,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         ? 'Custom 2027 Year Life Planner (12 Months)'
         : `Custom Daily Planner (${plannerConfig.dailyPageCount || 200} Pages)`;
 
-    const coverLabel =
-      plannerConfig.coverType === 'hardcover_corners'
-        ? 'Hardcover + Gold Corner Protectors'
-        : 'Softcover Full Laminated';
-
     addToCart({
       title: plannerName,
       priceLKR: plannerConfig.calculatedPriceLKR,
@@ -250,53 +235,50 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   };
 
   const generateWhatsAppUrl = (customer: OrderCustomerDetails): string => {
-    const storeWhatsAppNumber = '94771234567'; // Little Lines official workshop contact
+    const storeWhatsAppNumber = '94771234567';
+    let message = `[LITTLE LINES - NEW ORDER REQUEST]\n\n`;
+    message += `Customer Name: ${customer.fullName}\n`;
+    message += `Phone / WhatsApp: ${customer.whatsappNumber}\n`;
+    message += `Delivery Address: ${customer.deliveryAddress}, ${customer.city}\n`;
+    message += `Payment Option: ${customer.paymentMethod.toUpperCase()}\n`;
+    if (customer.notes) {
+      message += `Customer Notes: ${customer.notes}\n`;
+    }
+    message += `\n---------------------\n`;
+    message += `ORDER ITEMS:\n\n`;
+
+    cart.forEach((item, index) => {
+      message += `${index + 1}. ${item.title} (Qty: ${item.quantity}) - LKR ${(item.priceLKR * item.quantity).toLocaleString()}/=\n`;
+      if (item.isCustomPlanner && item.customConfig) {
+        const cfg = item.customConfig;
+        message += `   - Cover Finish: ${cfg.coverType === 'hardcover_corners' ? 'Hard Cover with Gold Metal Corners' : 'Soft Cover Full Laminated'}\n`;
+        message += `   - Duration / Pages: ${cfg.plannerType === 'daily_planner' ? `${cfg.dailyPageCount} Daily Pages` : `${cfg.durationMonths} Months`}\n`;
+        message += `   - Embossed Name / Title: "${cfg.customName}" / "${cfg.coverTitle}"\n`;
+        message += `   - Theme / Cover Art: ${cfg.customPhotoUrl ? 'Uploaded Custom Photo (Sent in chat)' : cfg.selectedThemeId}\n`;
+        if (cfg.specialNotes) {
+          message += `   - Customization Note: ${cfg.specialNotes}\n`;
+        }
+        const addons = [];
+        if (cfg.addOnStickers) addons.push('Aesthetic Sticker Sheet');
+        if (cfg.addOnStickyTabs) addons.push('Index Flag Tabs');
+        if (cfg.addOnRibbon) addons.push('Silk Ribbon Marker');
+        if (addons.length > 0) {
+          message += `   - Add-ons: ${addons.join(', ')}\n`;
+        }
+      }
+      message += `\n`;
+    });
+
     const deliveryFee = cartTotalLKR >= 5000 ? 0 : 350;
     const finalGrandTotal = cartTotalLKR + deliveryFee;
 
-    const paymentLabel =
-      customer.paymentMethod === 'cod'
-        ? 'Cash on Delivery'
-        : customer.paymentMethod === 'bank_transfer'
-        ? 'Bank Transfer / Deposit Slip'
-        : 'Card Payment';
+    message += `---------------------\n`;
+    message += `Subtotal: LKR ${cartTotalLKR.toLocaleString()}/=\n`;
+    message += `Delivery: ${deliveryFee === 0 ? 'FREE (Orders over LKR 5,000)' : `LKR ${deliveryFee}/=`}\n`;
+    message += `TOTAL ESTIMATE: LKR ${finalGrandTotal.toLocaleString()}/=\n\n`;
+    message += `Thank you for handcrafting my custom stationery!`;
 
-    let message = `✨ Little Lines Order Request\n`;
-    message += `-----------------------------------\n`;
-    message += `Customer: ${customer.fullName} (${customer.whatsappNumber})\n`;
-    message += `Address: ${customer.deliveryAddress}, ${customer.city}\n`;
-    message += `Payment: ${paymentLabel}\n\n`;
-
-    message += `Items:\n`;
-    cart.forEach((item, index) => {
-      const qtyLabel = item.quantity > 1 ? ` (x${item.quantity})` : '';
-      message += `${index + 1}. ${item.title}${qtyLabel} - Rs. ${(item.priceLKR * item.quantity).toLocaleString()}\n`;
-      if (item.isCustomPlanner && item.customConfig) {
-        const cfg = item.customConfig;
-        message += `   • Finish: ${cfg.coverType === 'hardcover_corners' ? 'Hardcover + Gold Corners' : 'Softcover Laminated'}\n`;
-        const themeObj = COVER_THEMES.find((t) => t.id === cfg.selectedThemeId);
-        const themeTitle = cfg.customPhotoUrl
-          ? 'Custom Photo'
-          : themeObj
-          ? themeObj.name.split('/')[0].trim()
-          : 'Future Doctor';
-        message += `   • Theme: ${themeTitle}\n`;
-        message += `   • Name: "${cfg.customName}"\n`;
-        const addons = [];
-        if (cfg.addOnStickyTabs) addons.push('PET Tabs (+Rs. 200)');
-        if (cfg.addOnStickers) addons.push('Stickers (+Rs. 250)');
-        if (cfg.addOnRibbon) addons.push('Bookmark Ribbon (+Rs. 150)');
-        if (addons.length > 0) {
-          message += `   • Add-on: ${addons.join(', ')}\n`;
-        }
-      }
-    });
-
-    message += `\nTotal Amount: LKR ${finalGrandTotal.toLocaleString()}/= (${deliveryFee === 0 ? 'Free Delivery' : 'Includes Rs. 350 delivery'})\n`;
-    message += `-----------------------------------\n`;
-    message += `Ready for dispatch confirmation!\n`;
-
-    return `https://wa.me/${storeWhatsAppNumber}?text=${encodeURIComponent(message.trim())}`;
+    return `https://wa.me/${storeWhatsAppNumber}?text=${encodeURIComponent(message)}`;
   };
 
   return (

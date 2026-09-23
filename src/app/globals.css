@@ -1,47 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Caveat:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @layer base {
   :root {
-    /* Typographic Stacks */
-    --font-serif: "Cormorant Garamond", Georgia, serif;
+    --font-serif: "Playfair Display", Georgia, serif;
     --font-mono: "JetBrains Mono", monospace;
     --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --font-hand: "Caveat", cursive;
 
-    /* Theme: Tactile Minimalism - Human Stationery */
-    --background: #F9F7F2; /* Warm Oat Milk / Handmade Paper */
-    --background-accent: #EFECE4;
-    --surface: #FCFBF7;
-    --surface-subtle: #F3EFE7;
-    --surface-elevated: #FFFFFF; /* Crisp White Linen */
+    /* Modern Nordic Paper Palette */
+    --background: #FAF9F6;
+    --background-subtle: #F3F1EC;
+    --surface: #FFFFFF;
+    --surface-elevated: #FFFFFF;
     
-    /* Deep Espresso Typography */
-    --foreground: #24211E;
-    --foreground-muted: #635B53;
-    --foreground-subtle: #8E847A;
+    /* Deep Charcoal / Ink */
+    --foreground: #141312;
+    --foreground-muted: #5C5854;
+    --foreground-subtle: #8E8983;
     
-    /* Subtle Hairline Borders */
-    --border: rgba(36, 33, 30, 0.08);
-    --border-strong: rgba(36, 33, 30, 0.25);
-    --border-subtle: rgba(36, 33, 30, 0.04);
+    /* Ultra-fine hairlines */
+    --border: rgba(20, 19, 18, 0.08);
+    --border-subtle: rgba(20, 19, 18, 0.04);
     
     /* Brand Accents */
-    --primary: #C26D4A; /* Warm Ochre / Terracotta */
-    --primary-hover: #A95837;
-    --primary-foreground: #FFFFFF;
-    --accent-sage: #6E8574; /* Vintage Sage */
-    --accent-sage-light: rgba(110, 133, 116, 0.12);
-    --accent-ochre: #C26D4A;
+    --primary: #A84A2A;
+    --primary-hover: #8C3B1E;
+    --accent-sage: #3E5A44;
     --accent-gold: #D4AF37;
-    --accent-gold-foil: linear-gradient(135deg, #ECC86C 0%, #D4AF37 50%, #9E7D1C 100%);
 
-    /* Tactile Paper & Desk Diffuse Drop Shadows */
-    --shadow-paper: 0 10px 30px -4px rgba(45, 35, 25, 0.06), 0 4px 12px -2px rgba(45, 35, 25, 0.03);
-    --shadow-paper-hover: 0 20px 40px -8px rgba(45, 35, 25, 0.10), 0 8px 18px -4px rgba(45, 35, 25, 0.04);
-    --shadow-floating-pill: 0 4px 14px rgba(45, 35, 25, 0.05), 0 1px 3px rgba(45, 35, 25, 0.02);
-    --shadow-book: -10px 18px 36px -6px rgba(36, 33, 30, 0.18), 0 6px 16px rgba(36, 33, 30, 0.07);
-    --shadow-washi: 0 2px 8px rgba(45, 35, 25, 0.08);
+    /* Ultra-soft Modern Ambient Shadows */
+    --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-card: 0 4px 20px -2px rgba(20, 19, 18, 0.04), 0 2px 6px -1px rgba(20, 19, 18, 0.02);
+    --shadow-elevated: 0 12px 36px -4px rgba(20, 19, 18, 0.07), 0 4px 12px -2px rgba(20, 19, 18, 0.03);
+    --shadow-book: -12px 18px 36px -6px rgba(20, 19, 18, 0.14), 0 4px 14px rgba(20, 19, 18, 0.04);
   }
 }
 
@@ -51,8 +42,6 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: radial-gradient(rgba(36, 33, 30, 0.035) 1px, transparent 1px);
-  background-size: 24px 24px;
 }
 
 .font-serif {
@@ -68,238 +57,48 @@ body {
   font-family: var(--font-sans);
 }
 
-.font-hand {
-  font-family: var(--font-hand);
+.shadow-card {
+  box-shadow: var(--shadow-card);
 }
 
-/* Tactile Card Classes */
-.tactile-card {
-  background-color: var(--surface-elevated);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-paper);
-  border-radius: 1.5rem; /* 24px - rounded-3xl */
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.tactile-card:hover {
-  box-shadow: var(--shadow-paper-hover);
-}
-
-.tactile-glass {
-  background-color: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow: var(--shadow-floating-pill);
-}
-
-.shadow-paper {
-  box-shadow: var(--shadow-paper);
-}
-
-.shadow-paper-hover {
-  box-shadow: var(--shadow-paper-hover);
+.shadow-elevated {
+  box-shadow: var(--shadow-elevated);
 }
 
 .shadow-book {
   box-shadow: var(--shadow-book);
 }
 
-.shadow-floating-pill {
-  box-shadow: var(--shadow-floating-pill);
-}
-
-/* Washi Tape Accent Badge */
-.washi-tape {
-  position: relative;
-  background-color: rgba(234, 226, 212, 0.85);
-  box-shadow: var(--shadow-washi);
-  backdrop-filter: blur(4px);
-  border-left: 2px dashed rgba(36, 33, 30, 0.15);
-  border-right: 2px dashed rgba(36, 33, 30, 0.15);
-}
-
-.washi-sage {
-  background-color: rgba(110, 133, 116, 0.2);
-  color: #3f5545;
-  border-left: 2px dashed rgba(110, 133, 116, 0.3);
-  border-right: 2px dashed rgba(110, 133, 116, 0.3);
-}
-
-.washi-terracotta {
-  background-color: rgba(194, 109, 74, 0.18);
-  color: #8c3f1e;
-  border-left: 2px dashed rgba(194, 109, 74, 0.3);
-  border-right: 2px dashed rgba(194, 109, 74, 0.3);
-}
-
-/* Gold Leaf Foil Emboss Effect */
-.gold-foil-text {
-  background: linear-gradient(135deg, #FFE898 0%, #D4AF37 35%, #FFF0BA 60%, #AA821C 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.4));
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
-/* Gold Metallic Corner Accents */
+/* Luxury Gold Corner Clips */
 .corner-gold-tl {
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  width: 24px;
-  height: 24px;
-  border-top: 3px solid #D4AF37;
-  border-left: 3px solid #D4AF37;
-  border-top-left-radius: 6px;
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
-  z-index: 25;
+  position: absolute; top: -1px; left: -1px; width: 20px; height: 20px;
+  border-top: 2.5px solid #D4AF37; border-left: 2.5px solid #D4AF37; border-top-left-radius: 4px;
 }
-
 .corner-gold-tr {
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  width: 24px;
-  height: 24px;
-  border-top: 3px solid #D4AF37;
-  border-right: 3px solid #D4AF37;
-  border-top-right-radius: 6px;
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
-  z-index: 25;
+  position: absolute; top: -1px; right: -1px; width: 20px; height: 20px;
+  border-top: 2.5px solid #D4AF37; border-right: 2.5px solid #D4AF37; border-top-right-radius: 4px;
 }
-
 .corner-gold-bl {
-  position: absolute;
-  bottom: -2px;
-  left: -2px;
-  width: 24px;
-  height: 24px;
-  border-bottom: 3px solid #D4AF37;
-  border-left: 3px solid #D4AF37;
-  border-bottom-left-radius: 6px;
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
-  z-index: 25;
+  position: absolute; bottom: -1px; left: -1px; width: 20px; height: 20px;
+  border-bottom: 2.5px solid #D4AF37; border-left: 2.5px solid #D4AF37; border-bottom-left-radius: 4px;
 }
-
 .corner-gold-br {
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  width: 24px;
-  height: 24px;
-  border-bottom: 3px solid #D4AF37;
-  border-right: 3px solid #D4AF37;
-  border-bottom-right-radius: 6px;
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
-  z-index: 25;
+  position: absolute; bottom: -1px; right: -1px; width: 20px; height: 20px;
+  border-bottom: 2.5px solid #D4AF37; border-right: 2.5px solid #D4AF37; border-bottom-right-radius: 4px;
 }
 
-/* Custom Scrollbar */
+/* Custom Minimalist Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(36, 33, 30, 0.16);
+  background: rgba(20, 19, 18, 0.12);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(36, 33, 30, 0.32);
-}
-
-/* Editorial & Tactile Utilities */
-.highlighter-underline {
-  position: relative;
-  display: inline-block;
-  z-index: 1;
-}
-
-.highlighter-underline::after {
-  content: "";
-  position: absolute;
-  left: -2px;
-  right: -2px;
-  bottom: 2px;
-  height: 0.38em;
-  background-color: rgba(194, 109, 74, 0.24);
-  border-radius: 2px;
-  z-index: -1;
-  transform: rotate(-0.5deg);
-}
-
-.highlighter-sage::after {
-  background-color: rgba(110, 133, 116, 0.26);
-}
-
-.highlighter-gold::after {
-  background-color: rgba(212, 175, 55, 0.3);
-}
-
-.paper-stack {
-  position: relative;
-  isolation: isolate;
-  background-color: #ffffff;
-  border-radius: 1.5rem;
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(36, 33, 30, 0.04);
-}
-
-.paper-stack::before {
-  content: "";
-  position: absolute;
-  bottom: -6px;
-  left: 12px;
-  right: 12px;
-  height: 16px;
-  background: #f7f5ef;
-  border: 1px solid rgba(36, 33, 30, 0.06);
-  border-radius: 1.25rem;
-  z-index: -1;
-  box-shadow: 0 6px 16px rgba(36, 33, 30, 0.04);
-}
-
-.paper-stack::after {
-  content: "";
-  position: absolute;
-  bottom: -11px;
-  left: 24px;
-  right: 24px;
-  height: 16px;
-  background: #eeebe2;
-  border: 1px solid rgba(36, 33, 30, 0.05);
-  border-radius: 1.1rem;
-  z-index: -2;
-  box-shadow: 0 4px 12px rgba(36, 33, 30, 0.03);
-}
-
-.tactile-pressable {
-  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.18s ease;
-  user-select: none;
-}
-
-.tactile-pressable:hover {
-  transform: translateY(-1px);
-}
-
-.tactile-pressable:active {
-  transform: scale(0.96) translateY(0);
-}
-
-/* Print Styles for Order Receipt */
-@media print {
-  header, footer, nav, button, .no-print {
-    display: none !important;
-  }
-  body {
-    background-color: #ffffff !important;
-    background-image: none !important;
-    color: #000000 !important;
-  }
-  .tactile-card, .shadow-paper, .shadow-book, .shadow-2xl {
-    box-shadow: none !important;
-    border: 1px solid #ddd !important;
-  }
+  background: rgba(20, 19, 18, 0.25);
 }
