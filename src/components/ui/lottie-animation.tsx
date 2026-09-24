@@ -19,20 +19,73 @@ interface LottieAnimationProps {
 }
 
 /**
- * Resolves animation URL to its JSON equivalent
+ * Builds a list of candidate URLs to fetch the animation from,
+ * ensuring it works seamlessly on local dev, root hosting, and GitHub Pages subpaths.
  */
-function resolveAnimationSrc(src: string): string {
-  if (!src) return '';
+function getCandidateUrls(src: string): string[] {
+  if (!src) return [];
+  
   let cleanSrc = src;
   if (cleanSrc.toLowerCase().endsWith('.lottie')) {
     cleanSrc = cleanSrc.slice(0, -7) + '.json';
   }
-  return cleanSrc;
+
+  // If already absolute HTTP / data URI, return as-is
+  if (cleanSrc.startsWith('http://') || cleanSrc.startsWith('https://') || cleanSrc.startsWith('data:')) {
+    return [cleanSrc];
+  }
+
+  const filename = cleanSrc.split('/').pop() || '';
+  const basePathEnv = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
+  // Detect runtime subpath on GitHub Pages if window is available
+  let runtimeBasePath = '';
+  if (typeof window !== 'undefined') {
+    const segments = window.location.pathname.split('/').filter(Boolean);
+    if (segments.length > 0 && segments[0] === 'demo-daily-planner') {
+      runtimeBasePath = '/demo-daily-planner';
+    }
+  }
+
+  const effectiveBasePath = basePathEnv || runtimeBasePath;
+
+  const normalizedPath = cleanSrc.startsWith('/') ? cleanSrc : `/${cleanSrc}`;
+  const candidates: string[] = [];
+
+  // 1. Path with effective base path (e.g. /demo-daily-planner/animation/...)
+  if (effectiveBasePath && !normalizedPath.startsWith(effectiveBasePath)) {
+    candidates.push(`${effectiveBasePath}${normalizedPath}`);
+  }
+
+  // 2. Exact normalized path (e.g. /animation/...)
+  candidates.push(normalizedPath);
+
+  // 3. GitHub Pages explicit repository path fallback
+  if (!normalizedPath.startsWith('/demo-daily-planner')) {
+    candidates.push(`/demo-daily-planner${normalizedPath}`);
+  }
+
+  // 4. Relative path from current document
+  candidates.push(`.${normalizedPath}`);
+
+  // 5. Lowercase hyphenated alternatives if filename has spaces or uppercase
+  if (filename) {
+    const slugName = filename.toLowerCase().replace(/\s+/g, '-');
+    if (slugName !== filename.toLowerCase()) {
+      if (effectiveBasePath) candidates.push(`${effectiveBasePath}/animation/${slugName}`);
+      candidates.push(`/animation/${slugName}`);
+      candidates.push(`/demo-daily-planner/animation/${slugName}`);
+    }
+  }
+
+  // Deduplicate candidates
+  return Array.from(new Set(candidates));
 }
 
 /**
  * High-performance, viewport-aware Lottie player.
- * - Automatically pauses when scrolled out of view to consume 0% CPU and eliminate memory build-up.
+ * - Resolves GitHub Pages basePath automatically.
+ * - Pauses when scrolled out of view to consume 0% CPU and eliminate memory build-up.
  * - Resumes seamlessly when scrolled into view.
  * - Pauses when the browser tab is hidden/backgrounded.
  * - Lazy-loads animation assets only when approaching the viewport.
@@ -53,17 +106,14 @@ export function LottieAnimation({
   const isVisibleRef = useRef<boolean>(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const resolvedSrc = resolveAnimationSrc(src);
-
   useEffect(() => {
     let isCancelled = false;
     const container = containerRef.current;
-    if (!container || !resolvedSrc) return;
+    if (!container || !src) return;
 
-    let animInstance: AnimationItem | null = null;
     let observer: IntersectionObserver | null = null;
 
-    // Load and initialize Lottie animation
+    // Load and initialize Lottie animation data from candidates
     const initLottie = async () => {
       try {
         const lottieModule = await import('lottie-web');
@@ -71,16 +121,32 @@ export function LottieAnimation({
 
         if (isCancelled || !containerRef.current) return;
 
-        let animData = animationCache.get(resolvedSrc);
+        let animData: Record<string, unknown> | null = (animationCache.get(src) as Record<string, unknown>) || null;
 
         if (!animData) {
-          const res = await fetch(encodeURI(resolvedSrc));
-          if (!res.ok) {
-            throw new Error(`Failed to load Lottie animation: ${res.statusText}`);
+          const candidates = getCandidateUrls(src);
+          let fetchSuccess = false;
+
+          for (const url of candidates) {
+            try {
+              const res = await fetch(encodeURI(url));
+              if (res.ok) {
+                const json = await res.json();
+                if (json && typeof json === 'object') {
+                  animData = json;
+                  animationCache.set(src, json);
+                  fetchSuccess = true;
+                  break;
+                }
+              }
+            } catch {
+              // Try next candidate
+            }
           }
-          animData = await res.json();
-          if (animData && typeof animData === 'object') {
-            animationCache.set(resolvedSrc, animData);
+
+          if (!fetchSuccess || !animData) {
+            console.warn('Could not load Lottie animation from any candidate URL for:', src);
+            return;
           }
         }
 
@@ -90,7 +156,6 @@ export function LottieAnimation({
         containerRef.current.innerHTML = '';
 
         // Initialize animation with SVG renderer
-        // Note: autoplay is controlled by the intersection observer to save CPU
         const anim = lottie.loadAnimation({
           container: containerRef.current,
           renderer: 'svg',
@@ -117,7 +182,6 @@ export function LottieAnimation({
           });
         }
 
-        animInstance = anim;
         animItemRef.current = anim;
         setIsLoaded(true);
 
@@ -128,7 +192,7 @@ export function LottieAnimation({
           anim.pause();
         }
       } catch (err) {
-        console.warn('Lottie loading error for:', resolvedSrc, err);
+        console.warn('Lottie loading error for:', src, err);
       }
     };
 
@@ -157,14 +221,13 @@ export function LottieAnimation({
           });
         },
         {
-          rootMargin: '100px 0px 100px 0px', // Preload / wake up slightly before entering viewport
+          rootMargin: '100px 0px 100px 0px',
           threshold: 0.05,
         }
       );
 
       observer.observe(container);
     } else {
-      // Fallback if IntersectionObserver is unavailable
       isVisibleRef.current = true;
       initLottie();
     }
@@ -199,7 +262,7 @@ export function LottieAnimation({
         containerRef.current.innerHTML = '';
       }
     };
-  }, [resolvedSrc, loop, autoplay, speed]);
+  }, [src, loop, autoplay, speed]);
 
   const widthVal = typeof width === 'number' ? `${width}px` : width;
   const heightVal = typeof height === 'number' ? `${height}px` : height;
@@ -214,7 +277,7 @@ export function LottieAnimation({
       style={{
         width: widthVal,
         height: heightVal,
-        contain: 'layout style paint', // CSS containment to isolate layout calculations
+        contain: 'layout style paint',
         ...style,
       }}
       aria-hidden="true"
