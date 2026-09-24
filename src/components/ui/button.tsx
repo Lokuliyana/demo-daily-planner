@@ -1,37 +1,42 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+'use client';
+
+import * as React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all duration-150 select-none disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--foreground)] focus-visible:ring-offset-1 active:scale-[0.98]",
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B8B] disabled:pointer-events-none disabled:opacity-50 cursor-pointer select-none active:translate-y-0.5 active:shadow-none',
   {
     variants: {
       variant: {
-        primary:
-          "bg-[var(--primary)] text-[var(--primary-foreground)] hover:bg-[var(--primary-hover)] border border-black/10 shadow-xs active:translate-y-[1px]",
-        secondary:
-          "bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:bg-[var(--secondary-hover)] border border-[var(--border)] active:translate-y-[1px]",
+        default:
+          'bg-[#FF6B8B] text-white hover:bg-[#FA5274] shadow-[0_4px_0_#E04D6D,0_8px_16px_rgba(255,107,139,0.25)]',
+        pink:
+          'bg-[#FF6B8B] text-white hover:bg-[#FA5274] shadow-[0_4px_0_#E04D6D,0_8px_16px_rgba(255,107,139,0.25)]',
+        yellow:
+          'bg-[#FFD166] text-[#4A3810] hover:bg-[#FFC43A] shadow-[0_4px_0_#D9A020,0_8px_16px_rgba(255,209,102,0.3)]',
+        mint:
+          'bg-[#86E3CE] text-[#1D5E50] hover:bg-[#6FD8C1] shadow-[0_4px_0_#52BFA8,0_8px_16px_rgba(134,227,206,0.3)]',
+        lavender:
+          'bg-[#D8B4FE] text-[#4C2882] hover:bg-[#C89BFD] shadow-[0_4px_0_#AA76E6,0_8px_16px_rgba(216,180,254,0.3)]',
         outline:
-          "border border-[var(--foreground)] bg-transparent hover:bg-[var(--surface-subtle)] text-[var(--foreground)] active:translate-y-[1px]",
+          'border-2 border-[#FF6B8B]/30 bg-white text-[#382A2C] hover:bg-[#FFF5F7] hover:border-[#FF6B8B] shadow-[0_3px_0_#FFE4EC]',
+        secondary:
+          'bg-[#FFF0F5] text-[#FF6B8B] hover:bg-[#FFE4EC] shadow-[0_3px_0_#FFD4DF]',
         ghost:
-          "bg-transparent hover:bg-[var(--surface-subtle)] text-[var(--foreground)]",
-        stamp:
-          "font-mono uppercase tracking-wider text-xs border border-dashed border-[var(--primary)] text-[var(--primary)] bg-[var(--primary-muted)] hover:bg-[var(--primary)] hover:text-white transition-colors",
-        paper:
-          "bg-[var(--surface)] text-[var(--foreground)] border border-[var(--border)] elevation-1 hover:border-[var(--foreground-muted)] active:translate-y-[1px]",
-        danger:
-          "bg-[var(--danger)] text-white hover:opacity-90 border border-black/10",
+          'hover:bg-[#FFF0F5] text-[#382A2C]',
+        link: 'text-[#FF6B8B] underline-offset-4 hover:underline font-semibold',
       },
       size: {
-        sm: "h-7 rounded-sm px-2.5 text-xs font-medium",
-        md: "h-9 rounded-sm px-4 text-sm",
-        lg: "h-11 rounded-sm px-6 text-base font-medium",
-        icon: "h-8 w-8 rounded-sm p-0",
+        default: 'h-10 px-5 py-2 text-xs sm:text-sm',
+        sm: 'h-8 px-3.5 text-xs',
+        lg: 'h-12 px-7 text-sm sm:text-base font-extrabold',
+        icon: 'h-9 w-9 p-0',
       },
     },
     defaultVariants: {
-      variant: "primary",
-      size: "md",
+      variant: 'default',
+      size: 'default',
     },
   }
 );
@@ -53,4 +58,4 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
   }
 );
-Button.displayName = "Button";
+Button.displayName = 'Button';

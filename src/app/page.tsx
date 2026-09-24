@@ -2,24 +2,20 @@
 
 import React from 'react';
 import { Hero } from '@/components/Hero';
-import { PlannerCustomizer } from '@/components/PlannerCustomizer';
-import { ProductCatalog } from '@/components/ProductCatalog';
-import { ReviewsSection } from '@/components/ReviewsSection';
+import { FeaturedPicks } from '@/components/FeaturedPicks';
+import { HomeReviewsTeaser } from '@/components/HomeReviewsTeaser';
 
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col">
-      {/* Page 1: Hero & Editorial Showcase with Why Little Lines & Ready-to-Ship Picks */}
+      {/* 1. Cute Hero & Lo-Fi Study Room Canvas */}
       <Hero />
 
-      {/* Page 2: Synchronized 2-Column Custom Studio */}
-      <PlannerCustomizer />
+      {/* 2. Curated Besties Spotlight & Marketplace Teaser */}
+      <FeaturedPicks />
 
-      {/* Page 3: Stationery Catalog & Quick-View */}
-      <ProductCatalog />
-
-      {/* Page 6: Student Reviews & Community Wall */}
-      <ReviewsSection />
+      {/* 3. Community Wall & Bestie Reviews Highlight */}
+      <HomeReviewsTeaser />
     </main>
   );
 }

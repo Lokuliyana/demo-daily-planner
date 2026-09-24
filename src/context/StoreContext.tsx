@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import {
   CartItem,
   CustomPlannerConfig,
@@ -12,7 +12,6 @@ import {
 import {
   INITIAL_REVIEWS,
   calculatePlannerPrice,
-  PRODUCTS_CATALOG,
   COVER_THEMES,
 } from '@/lib/data';
 
@@ -73,42 +72,15 @@ const DEFAULT_PLANNER_CONFIG: CustomPlannerConfig = {
 export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [hasLoadedStorage, setHasLoadedStorage] = useState(false);
-
-  const [plannerConfig, setPlannerConfig] = useState<CustomPlannerConfig>(DEFAULT_PLANNER_CONFIG);
+  const [rawPlannerConfig, setRawPlannerConfig] = useState<CustomPlannerConfig>(DEFAULT_PLANNER_CONFIG);
   const [activeStep, setActiveStep] = useState(1);
-
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [reviews, setReviews] = useState<Review[]>(INITIAL_REVIEWS);
-
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [currentOrderDetails, setCurrentOrderDetails] = useState<OrderCustomerDetails | null>(null);
 
-  useEffect(() => {
-    const price = calculatePlannerPrice(
-      plannerConfig.plannerType,
-      plannerConfig.durationMonths,
-      plannerConfig.coverType,
-      plannerConfig.dailyPageCount,
-      {
-        stickers: plannerConfig.addOnStickers,
-        stickyTabs: plannerConfig.addOnStickyTabs,
-        ribbon: plannerConfig.addOnRibbon,
-      }
-    );
-
-    setPlannerConfig((prev) => (prev.calculatedPriceLKR !== price ? { ...prev, calculatedPriceLKR: price } : prev));
-  }, [
-    plannerConfig.plannerType,
-    plannerConfig.durationMonths,
-    plannerConfig.coverType,
-    plannerConfig.dailyPageCount,
-    plannerConfig.addOnStickers,
-    plannerConfig.addOnStickyTabs,
-    plannerConfig.addOnRibbon,
-  ]);
-
-  useEffect(() => {
+  // Safe client hydration from localStorage after initial render
+  React.useEffect(() => {
     try {
       const savedCart = localStorage.getItem('little_lines_cart');
       if (savedCart) {
@@ -119,39 +91,52 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         setReviews(JSON.parse(savedReviews));
       }
     } catch (e) {
-      console.error('Failed to load local storage data', e);
+      console.error('Failed to parse storage data', e);
     }
-    setHasLoadedStorage(true);
   }, []);
 
-  useEffect(() => {
-    if (hasLoadedStorage) {
-      try {
-        localStorage.setItem('little_lines_cart', JSON.stringify(cart));
-      } catch (e) {
-        console.error('Failed to save cart to local storage', e);
-      }
+  // Compute calculated price synchronously
+  const calculatedPrice = calculatePlannerPrice(
+    rawPlannerConfig.plannerType,
+    rawPlannerConfig.durationMonths,
+    rawPlannerConfig.coverType,
+    rawPlannerConfig.dailyPageCount,
+    {
+      stickers: rawPlannerConfig.addOnStickers,
+      stickyTabs: rawPlannerConfig.addOnStickyTabs,
+      ribbon: rawPlannerConfig.addOnRibbon,
     }
-  }, [cart, hasLoadedStorage]);
+  );
 
-  useEffect(() => {
-    if (hasLoadedStorage) {
-      try {
-        localStorage.setItem('little_lines_reviews', JSON.stringify(reviews));
-      } catch (e) {
-        console.error('Failed to save reviews to local storage', e);
-      }
-    }
-  }, [reviews, hasLoadedStorage]);
+  const plannerConfig: CustomPlannerConfig = {
+    ...rawPlannerConfig,
+    calculatedPriceLKR: calculatedPrice,
+  };
 
   const addToCart = (item: Omit<CartItem, 'id'>) => {
     const id = `cart-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
-    setCart((prev) => [...prev, { ...item, id }]);
+    setCart((prev) => {
+      const updated = [...prev, { ...item, id }];
+      try {
+        localStorage.setItem('little_lines_cart', JSON.stringify(updated));
+      } catch (e) {
+        console.error('Failed to save cart', e);
+      }
+      return updated;
+    });
     setIsCartOpen(true);
   };
 
   const removeFromCart = (id: string) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
+    setCart((prev) => {
+      const updated = prev.filter((item) => item.id !== id);
+      try {
+        localStorage.setItem('little_lines_cart', JSON.stringify(updated));
+      } catch (e) {
+        console.error('Failed to save cart', e);
+      }
+      return updated;
+    });
   };
 
   const updateQuantity = (id: string, qty: number) => {
@@ -159,13 +144,24 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       removeFromCart(id);
       return;
     }
-    setCart((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, quantity: qty } : item))
-    );
+    setCart((prev) => {
+      const updated = prev.map((item) => (item.id === id ? { ...item, quantity: qty } : item));
+      try {
+        localStorage.setItem('little_lines_cart', JSON.stringify(updated));
+      } catch (e) {
+        console.error('Failed to save cart', e);
+      }
+      return updated;
+    });
   };
 
   const clearCart = () => {
     setCart([]);
+    try {
+      localStorage.removeItem('little_lines_cart');
+    } catch (e) {
+      console.error('Failed to clear cart', e);
+    }
   };
 
   const cartTotalLKR = cart.reduce(
@@ -176,7 +172,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const openCustomizerWithPlanner = (type: PlannerType) => {
-    setPlannerConfig((prev) => ({
+    setRawPlannerConfig((prev) => ({
       ...prev,
       plannerType: type,
       coverTitle:
@@ -225,13 +221,27 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       date: 'Just now',
       likes: 1,
     };
-    setReviews((prev) => [newRev, ...prev]);
+    setReviews((prev) => {
+      const updated = [newRev, ...prev];
+      try {
+        localStorage.setItem('little_lines_reviews', JSON.stringify(updated));
+      } catch (e) {
+        console.error('Failed to save review', e);
+      }
+      return updated;
+    });
   };
 
   const likeReview = (id: string) => {
-    setReviews((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, likes: r.likes + 1 } : r))
-    );
+    setReviews((prev) => {
+      const updated = prev.map((r) => (r.id === id ? { ...r, likes: r.likes + 1 } : r));
+      try {
+        localStorage.setItem('little_lines_reviews', JSON.stringify(updated));
+      } catch (e) {
+        console.error('Failed to save review likes', e);
+      }
+      return updated;
+    });
   };
 
   const generateWhatsAppUrl = (customer: OrderCustomerDetails): string => {
@@ -294,7 +304,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         cartTotalLKR,
         cartCount,
         plannerConfig,
-        setPlannerConfig,
+        setPlannerConfig: setRawPlannerConfig,
         activeStep,
         setActiveStep,
         openCustomizerWithPlanner,

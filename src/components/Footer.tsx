@@ -1,14 +1,26 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { useStore } from '@/context/StoreContext';
-import { BookOpen, Sparkles, MessageCircle, Heart, ShieldCheck, Mail } from 'lucide-react';
+import { Sparkles, MessageCircle, Heart, ShieldCheck, Mail } from 'lucide-react';
+import { LottieAnimation } from '@/components/ui/lottie-animation';
+import {
+  ColoredFlower,
+  ColoredSparkle,
+  ColoredHeart,
+  ColoredRibbon,
+  ColoredTruck,
+  ColoredWhatsApp,
+  ColoredCamera,
+  ColoredLeaf,
+} from '@/components/ui/colored-icons';
 
 export function Footer() {
   const { openCustomizerWithPlanner } = useStore();
 
   return (
-    <footer className="bg-[#201D1A] text-[#EDE8DF] pt-12 sm:pt-16 pb-10 border-t border-black/20 px-4 sm:px-6 lg:px-8">
+    <footer className="bg-[#382A2C] text-[#FFF5F7] pt-12 sm:pt-16 pb-10 border-t-2 border-[#FF6B8B]/20 px-3 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-10">
         
         {/* Main Footer Columns */}
@@ -16,18 +28,18 @@ export function Footer() {
           
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-3.5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-[#94442A] text-white flex items-center justify-center">
-                <BookOpen className="w-4 h-4" />
+            <Link href="/" className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-2xl bg-[#FF6B8B] text-white flex items-center justify-center font-heading text-lg font-extrabold shadow-sm">
+                <ColoredFlower size={20} />
               </div>
-              <span className="font-serif text-xl sm:text-2xl font-bold text-white tracking-tight">
-                Little Lines
+              <span className="font-heading text-2xl font-extrabold text-white tracking-tight flex items-center gap-1.5">
+                <span>Little Lines</span>
+                <ColoredSparkle size={20} />
               </span>
-            </div>
+            </Link>
             
-            <p className="text-xs text-[#EDE8DF]/70 max-w-sm leading-relaxed">
-              Mindfully handcrafted stationery, study organizers, and customizable 3–12 month planners. 
-              Designed to help students, creators, and professionals turn big goals into daily habits.
+            <p className="text-xs text-[#FFF5F7]/80 max-w-sm leading-relaxed font-semibold">
+              Handcrafted with love in Sri Lanka! Cute stationery, study organizers, and customizable 4–12 month A/L planners on 120gsm zero-bleed paper.
             </p>
 
             <div className="flex items-center gap-2.5 pt-1">
@@ -35,111 +47,109 @@ export function Footer() {
                 href="https://wa.me/94771234567"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#506850] text-white flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#25D366] text-white flex items-center justify-center transition-colors shadow-xs"
                 title="WhatsApp Little Lines"
               >
-                <MessageCircle className="w-3.5 h-3.5" />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#94442A] text-white flex items-center justify-center transition-colors"
-                title="Instagram"
-              >
-                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
+                <MessageCircle className="w-4 h-4" />
               </a>
               <a
                 href="mailto:hello@littlelines.store"
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#B07E32] text-white flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#FF6B8B] text-white flex items-center justify-center transition-colors shadow-xs"
                 title="Email Support"
               >
-                <Mail className="w-3.5 h-3.5" />
+                <Mail className="w-4 h-4" />
               </a>
+              <div className="w-12 h-12 ml-2 flex items-center justify-center opacity-95 shrink-0">
+                <LottieAnimation src="/animation/Looping Flower.json" speed={0.6} width={48} height={48} />
+              </div>
             </div>
           </div>
 
           {/* Planners Col */}
           <div className="space-y-2.5">
-            <h4 className="font-serif font-bold text-white text-xs sm:text-sm">
-              Custom Planners
+            <h4 className="font-heading font-extrabold text-[#FFAAA6] text-sm sm:text-base flex items-center gap-1.5">
+              <ColoredFlower size={15} />
+              <span>Cute Planners</span>
             </h4>
-            <ul className="space-y-1.5 text-xs text-[#EDE8DF]/70">
+            <ul className="space-y-2 text-xs font-semibold text-[#FFF5F7]/80">
               <li>
-                <button
+                <Link
+                  href="/studio?planner=al_study"
                   onClick={() => openCustomizerWithPlanner('al_study')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                  className="hover:text-white transition-colors block"
                 >
-                  A/L Study Planners (4–12 Months)
-                </button>
+                  A/L Study Planners (4–12 Mos)
+                </Link>
               </li>
               <li>
-                <button
+                <Link
+                  href="/studio?planner=year_planner"
                   onClick={() => openCustomizerWithPlanner('year_planner')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                  className="hover:text-white transition-colors block"
                 >
-                  2027 Full Year Life Planners
-                </button>
+                  2027 Full Year Planners
+                </Link>
               </li>
               <li>
-                <button
+                <Link
+                  href="/studio?planner=daily_planner"
                   onClick={() => openCustomizerWithPlanner('daily_planner')}
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                  className="hover:text-white transition-colors block"
                 >
-                  Custom Daily Planners (100–300p)
-                </button>
+                  Daily Planners (100–300p)
+                </Link>
               </li>
             </ul>
           </div>
 
           {/* Stationery Col */}
           <div className="space-y-2.5">
-            <h4 className="font-serif font-bold text-white text-xs sm:text-sm">
-              Stationery Essentials
+            <h4 className="font-heading font-extrabold text-[#FFAAA6] text-sm sm:text-base flex items-center gap-1.5">
+              <ColoredRibbon size={15} />
+              <span>Sweet Boutique</span>
             </h4>
-            <ul className="space-y-1.5 text-xs text-[#EDE8DF]/70">
+            <ul className="space-y-2 text-xs font-semibold text-[#FFF5F7]/80">
               <li>
-                <a href="#stationery-catalog" className="hover:text-white transition-colors">
+                <Link href="/catalog" className="hover:text-white transition-colors block">
                   Pastel Sticky Notes & Tabs
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#stationery-catalog" className="hover:text-white transition-colors">
+                <Link href="/catalog" className="hover:text-white transition-colors block">
                   To-Do Lists & Notepads
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#stationery-catalog" className="hover:text-white transition-colors">
-                  Stand-Up Mini Calendars
-                </a>
+                <Link href="/catalog" className="hover:text-white transition-colors block">
+                  Mini Stand-Up Calendars
+                </Link>
               </li>
               <li>
-                <a href="#stationery-catalog" className="hover:text-white transition-colors">
-                  Vinyl Wall Stickers
-                </a>
+                <Link href="/catalog" className="hover:text-white transition-colors block">
+                  Pastel Wall Stickers
+                </Link>
               </li>
             </ul>
           </div>
 
           {/* Craft Promise Col */}
           <div className="space-y-2.5">
-            <h4 className="font-serif font-bold text-white text-xs sm:text-sm">
-              Craft Promise
+            <h4 className="font-heading font-extrabold text-[#FFAAA6] text-sm sm:text-base flex items-center gap-1.5">
+              <ColoredSparkle size={15} />
+              <span>Craft Promise</span>
             </h4>
-            <div className="space-y-1.5 text-xs text-[#EDE8DF]/70">
+            <div className="space-y-2 text-xs font-semibold text-[#FFF5F7]/80">
               <div className="flex items-start gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#506850] shrink-0 mt-0.5" />
-                <span>120gsm ink-proof smooth paper</span>
+                <ShieldCheck className="w-4 h-4 text-[#86E3CE] shrink-0 mt-0.5" />
+                <span>120gsm zero bleed paper</span>
               </div>
               <div className="flex items-start gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#B07E32] shrink-0 mt-0.5" />
-                <span>Free custom cover & photo printing</span>
+                <ColoredCamera size={14} className="shrink-0 mt-0.5" />
+                <span>Free photo cover printing</span>
               </div>
               <div className="flex items-start gap-1.5">
-                <Heart className="w-3.5 h-3.5 text-[#94442A] shrink-0 mt-0.5" />
-                <span>Hand-bound in Sri Lanka</span>
+                <ColoredHeart size={14} className="shrink-0 mt-0.5" />
+                <span>Handmade with Love in Sri Lanka</span>
               </div>
             </div>
           </div>
@@ -147,12 +157,22 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-[#EDE8DF]/50 text-center sm:text-left">
-          <p>© {new Date().getFullYear()} Little Lines Stationery. All rights reserved.</p>
+        <div className="pt-6 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#FFF5F7]/60 text-center sm:text-left font-semibold">
+          <p className="flex items-center justify-center sm:justify-start gap-1.5">
+            <span>© {new Date().getFullYear()} Little Lines Studio</span>
+            <ColoredFlower size={13} />
+            <span>All rights reserved with love.</span>
+          </p>
           <div className="flex items-center gap-3">
-            <span>Islandwide Courier Delivery</span>
+            <span className="flex items-center gap-1">
+              <ColoredTruck size={14} />
+              <span>Islandwide Courier Delivery</span>
+            </span>
             <span>•</span>
-            <span>WhatsApp Quick Dispatch</span>
+            <span className="flex items-center gap-1">
+              <ColoredWhatsApp size={14} />
+              <span>Instant WhatsApp Dispatch</span>
+            </span>
           </div>
         </div>
 

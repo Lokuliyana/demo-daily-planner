@@ -24,7 +24,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased scroll-smooth">
-      <body className="min-h-full flex flex-col bg-[#F9F7F2] text-[#24211E] font-sans selection:bg-[#C26D4A] selection:text-white transition-colors duration-300">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Playfair+Display:ital,wght@0,600;1,600&family=JetBrains+Mono:wght@500;600&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="min-h-full flex flex-col bg-[#FFFDF9] text-[#382A2C] font-sans selection:bg-[#FF6B8B] selection:text-white transition-colors duration-300">
         <StoreProvider>
           <Navbar />
           <div className="flex-1 w-full">{children}</div>

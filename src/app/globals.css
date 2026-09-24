@@ -1,60 +1,70 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @layer base {
   :root {
-    --font-serif: "Playfair Display", Georgia, serif;
+    --font-cute: "Fredoka", "Quicksand", sans-serif;
+    --font-heading: "Fredoka", "Quicksand", sans-serif;
+    --font-body: "Nunito", "Quicksand", sans-serif;
     --font-mono: "JetBrains Mono", monospace;
-    --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-serif: "Playfair Display", Georgia, serif;
 
-    /* Modern Nordic Paper Palette */
-    --background: #FAF9F6;
-    --background-subtle: #F3F1EC;
+    /* Cute & Soft Pastel Palette */
+    --background: #FFFDF9;
+    --background-subtle: #FFF5F7;
     --surface: #FFFFFF;
     --surface-elevated: #FFFFFF;
     
-    /* Deep Charcoal / Ink */
-    --foreground: #141312;
-    --foreground-muted: #5C5854;
-    --foreground-subtle: #8E8983;
+    /* Warm Cocoa / Soft Mocha Ink */
+    --foreground: #382A2C;
+    --foreground-muted: #6E5C5E;
+    --foreground-subtle: #9E8C8E;
     
-    /* Ultra-fine hairlines */
-    --border: rgba(20, 19, 18, 0.08);
-    --border-subtle: rgba(20, 19, 18, 0.04);
+    /* Soft Pastel Borders */
+    --border: rgba(255, 107, 139, 0.15);
+    --border-subtle: rgba(255, 107, 139, 0.08);
+    --border-strong: rgba(255, 107, 139, 0.3);
     
-    /* Brand Accents */
-    --primary: #A84A2A;
-    --primary-hover: #8C3B1E;
-    --accent-sage: #3E5A44;
-    --accent-gold: #D4AF37;
+    /* Cute Brand Accents */
+    --primary: #FF6B8B;
+    --primary-hover: #FA5274;
+    --primary-muted: #FFE8ED;
+    --accent-peach: #FFAAA6;
+    --accent-butter: #FFD166;
+    --accent-mint: #86E3CE;
+    --accent-lilac: #D8B4FE;
+    --accent-gold: #E8B949;
 
-    /* Ultra-soft Modern Ambient Shadows */
-    --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.04);
-    --shadow-card: 0 4px 20px -2px rgba(20, 19, 18, 0.04), 0 2px 6px -1px rgba(20, 19, 18, 0.02);
-    --shadow-elevated: 0 12px 36px -4px rgba(20, 19, 18, 0.07), 0 4px 12px -2px rgba(20, 19, 18, 0.03);
-    --shadow-book: -12px 18px 36px -6px rgba(20, 19, 18, 0.14), 0 4px 14px rgba(20, 19, 18, 0.04);
+    /* Cute Bouncy & Fluffy Shadows */
+    --shadow-subtle: 0 2px 8px rgba(255, 107, 139, 0.08);
+    --shadow-card: 0 8px 24px -4px rgba(255, 107, 139, 0.12), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+    --shadow-elevated: 0 16px 36px -6px rgba(255, 107, 139, 0.18), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+    --shadow-book: -10px 16px 32px -4px rgba(70, 40, 45, 0.18), 0 4px 12px rgba(255, 107, 139, 0.1);
+    --shadow-bubbly-pink: 0 5px 0 #E04D6D;
+    --shadow-bubbly-yellow: 0 5px 0 #E5A827;
+    --shadow-bubbly-mint: 0 5px 0 #52BFA8;
+    --shadow-bubbly-white: 0 4px 0 #E8DCDE;
   }
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.font-serif {
-  font-family: var(--font-serif);
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-cute {
+  font-family: var(--font-cute);
 }
 
 .font-mono {
   font-family: var(--font-mono);
   font-feature-settings: "tnum" 1, "zero" 1;
-}
-
-.font-sans {
-  font-family: var(--font-sans);
 }
 
 .shadow-card {
@@ -69,36 +79,55 @@ body {
   box-shadow: var(--shadow-book);
 }
 
-/* Luxury Gold Corner Clips */
+/* Cute Gold Corner Clips */
 .corner-gold-tl {
-  position: absolute; top: -1px; left: -1px; width: 20px; height: 20px;
-  border-top: 2.5px solid #D4AF37; border-left: 2.5px solid #D4AF37; border-top-left-radius: 4px;
+  position: absolute; top: -2px; left: -2px; width: 22px; height: 22px;
+  border-top: 3px solid #E8B949; border-left: 3px solid #E8B949; border-top-left-radius: 8px;
 }
 .corner-gold-tr {
-  position: absolute; top: -1px; right: -1px; width: 20px; height: 20px;
-  border-top: 2.5px solid #D4AF37; border-right: 2.5px solid #D4AF37; border-top-right-radius: 4px;
+  position: absolute; top: -2px; right: -2px; width: 22px; height: 22px;
+  border-top: 3px solid #E8B949; border-right: 3px solid #E8B949; border-top-right-radius: 8px;
 }
 .corner-gold-bl {
-  position: absolute; bottom: -1px; left: -1px; width: 20px; height: 20px;
-  border-bottom: 2.5px solid #D4AF37; border-left: 2.5px solid #D4AF37; border-bottom-left-radius: 4px;
+  position: absolute; bottom: -2px; left: -2px; width: 22px; height: 22px;
+  border-bottom: 3px solid #E8B949; border-left: 3px solid #E8B949; border-bottom-left-radius: 8px;
 }
 .corner-gold-br {
-  position: absolute; bottom: -1px; right: -1px; width: 20px; height: 20px;
-  border-bottom: 2.5px solid #D4AF37; border-right: 2.5px solid #D4AF37; border-bottom-right-radius: 4px;
+  position: absolute; bottom: -2px; right: -2px; width: 22px; height: 22px;
+  border-bottom: 3px solid #E8B949; border-right: 3px solid #E8B949; border-bottom-right-radius: 8px;
 }
 
-/* Custom Minimalist Scrollbar */
+/* Cute Sweet Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #FFF5F7;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(20, 19, 18, 0.12);
+  background: #FFB8C6;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(20, 19, 18, 0.25);
+  background: #FF8DA1;
+}
+
+/* Cute Floating Wiggle Animation */
+@keyframes cute-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(1.5deg); }
+}
+
+@keyframes cute-wiggle {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+.animate-cute-float {
+  animation: cute-float 4s ease-in-out infinite;
+}
+
+.animate-cute-wiggle {
+  animation: cute-wiggle 2s ease-in-out infinite;
 }
